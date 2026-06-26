@@ -9,7 +9,7 @@ part of 'user_model.dart';
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       id: (json['id'] as num).toInt(),
       username: json['username'] as String,
-      roles: (json['roles'] as List<dynamic>).map((e) => e as String).toList(),
+      roles: (json['roles'] as List<dynamic>?)?.map((e) => e as String).toList(),
       token: json['token'] as String?,
     );
 

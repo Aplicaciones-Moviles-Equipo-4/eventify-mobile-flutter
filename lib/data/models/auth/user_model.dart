@@ -12,9 +12,9 @@ class UserModel {
   UserModel({
     required this.id,
     required this.username,
-    required this.roles,
+    List<String>? roles,
     this.token,
-  });
+  }) : roles = roles ?? [];
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
   Map<String, dynamic> toJson() => _$UserModelToJson(this);

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../providers/organizers/organizers_provider.dart';
-
 class OrganizerDetailScreen extends ConsumerWidget {
   final int organizerId;
 
@@ -44,7 +43,7 @@ class OrganizerDetailScreen extends ConsumerWidget {
                         final review = reviews[index];
                         return ListTile(
                           title: Text('Rating: \${review.rating}'),
-                          subtitle: Text(review.content),
+                          subtitle: Text(review.comment),
                         );
                       },
                     ),

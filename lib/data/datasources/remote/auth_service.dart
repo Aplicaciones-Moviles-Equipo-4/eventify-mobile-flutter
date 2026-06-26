@@ -13,12 +13,12 @@ class AuthService {
         data: {
           'username': username,
           'password': password,
-          'roles': ['HOST'],
+          'roles': [],
         },
       );
       return response.data;
     } on DioException catch (e) {
-      throw Exception('Sign up failed: \${e.response?.data}');
+      throw Exception('Sign up failed: ${e.response?.data}');
     }
   }
 
@@ -33,7 +33,7 @@ class AuthService {
       );
       return response.data; // { id, username, token }
     } on DioException catch (e) {
-      throw Exception('Sign in failed: \${e.response?.data}');
+      throw Exception('Sign in failed: ${e.response?.data}');
     }
   }
 }
