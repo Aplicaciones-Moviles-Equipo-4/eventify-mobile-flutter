@@ -1,0 +1,62 @@
+name: eventify_amfitriones
+description: "Eventify Platform - Hosts Mobile App"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # State Management
+  flutter_riverpod: ^2.4.0
+  riverpod: ^2.4.0
+
+  # HTTP & Serialization
+  dio: ^5.3.0
+  json_annotation: ^4.8.0
+
+  # Navigation
+  go_router: ^12.0.0
+
+  # Storage
+  flutter_secure_storage: ^9.0.0
+  shared_preferences: ^2.2.0
+
+  # UI & Fonts
+  google_fonts: ^6.1.0
+
+  # Utilities
+  intl: ^0.20.2
+  uuid: ^4.0.0
+
+  # Freezed (para clases inmutables)
+  freezed_annotation: ^2.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+  # Code generation
+  build_runner: ^2.4.0
+  json_serializable: ^6.7.0
+  freezed: ^2.4.0
+
+flutter:
+  uses-material-design: true
+  # assets:
+  #   - assets/
+  #   - assets/images/
+  # fonts:
+  #   - family: Poppins
+  #     fonts:
+  #       - asset: assets/fonts/Poppins-Regular.ttf
+  #       - asset: assets/fonts/Poppins-Bold.ttf
+  #         weight: 700

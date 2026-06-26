@@ -1,0 +1,37 @@
+# Task Management
+
+- [x] Phase 1: Setup and Initialization
+    - [x] Update `pubspec.yaml` with dependencies
+    - [x] Create folder structure
+    - [x] Configure environment and constants
+- [x] Phase 2: Core Configuration
+    - [x] Implement `ApiClient` and Interceptors
+    - [x] Implement Validators and Utilities (Validators in screens/simplified)
+    - [x] Configure `AppRouter`
+    - [x] Configure `AppTheme` (Basic in main.dart)
+- [x] Phase 3: Data Layer (Models and Services)
+    - [x] Implement Auth Models and Service
+    - [x] Implement Profile Models and Service
+    - [x] Implement Organizer Models and Service
+    - [x] Implement Quote Models and Service
+    - [x] Implement Event Models and Service
+    - [ ] Run `build_runner` to generate code (Manual command needed in local env)
+- [x] Phase 4: Presentation Layer (State Management)
+    - [x] Implement Auth Providers
+    - [x] Implement Profile Providers
+    - [x] Implement Organizer Providers
+    - [x] Implement Quote Providers
+    - [x] Implement Event Providers
+- [x] Phase 5: UI Implementation
+    - [x] Implement Common Widgets
+    - [x] Implement Splash Screen
+    - [x] Implement Auth Screens (Login, Register)
+    - [x] Implement App Shell and Navigation
+    - [x] Implement Dashboard and Organizer Details
+    - [x] Implement Quote Screens (List, Detail, Form)
+    - [x] Implement Event Screens
+    - [x] Implement Profile Screens
+- [ ] Phase 6: Verification and Polish
+    - [ ] Perform manual testing of all flows
+    - [ ] Fix any UI/UX issues
+    - [ ] Final code review and cleanup
