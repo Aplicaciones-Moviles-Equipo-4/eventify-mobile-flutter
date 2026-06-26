@@ -42,8 +42,8 @@ class OrganizerDetailScreen extends ConsumerWidget {
                       itemBuilder: (context, index) {
                         final review = reviews[index];
                         return ListTile(
-                          title: Text('Rating: \${review.rating}'),
-                          subtitle: Text(review.comment),
+                          title: Text('\${review.fullName} — Rating: \${review.rating}/5'),
+                          subtitle: Text(review.content),
                         );
                       },
                     ),
