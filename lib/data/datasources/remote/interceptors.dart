@@ -33,21 +33,21 @@ class AuthInterceptor extends QueuedInterceptor {
 class LoggingInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    print('➡️  \${options.method} \${options.path}');
-    print('   Headers: \${options.headers}');
-    print('   Data: \${options.data}');
+    print('➡️  ${options.method} ${options.path}');
+    print('   Headers: ${options.headers}');
+    print('   Data: ${options.data}');
     handler.next(options);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    print('⬅️  \${response.statusCode} \${response.requestOptions.path}');
+    print('⬅️  ${response.statusCode} ${response.requestOptions.path}');
     handler.next(response);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    print('❌ Error: \${err.response?.statusCode} - \${err.message}');
+    print('❌ Error: ${err.response?.statusCode} - ${err.message}');
     handler.next(err);
   }
 }

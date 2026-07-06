@@ -35,49 +35,49 @@ class QuoteService {
       );
       return QuoteModel.fromJson(response.data);
     } on DioException catch (e) {
-      throw Exception('Create quote failed: \${e.response?.data}');
+      throw Exception('Create quote failed: ${e.response?.data}');
     }
   }
 
   Future<QuoteModel> getQuote(String quoteId) async {
     try {
-      final response = await dio.get('\${ApiConstants.quotes}/\$quoteId');
+      final response = await dio.get('${ApiConstants.quotes}/$quoteId');
       return QuoteModel.fromJson(response.data);
     } on DioException catch (e) {
-      throw Exception('Get quote failed: \${e.response?.data}');
+      throw Exception('Get quote failed: ${e.response?.data}');
     }
   }
 
   Future<QuoteModel> updateQuote(String quoteId, Map<String, dynamic> data) async {
     try {
-      final response = await dio.put('\${ApiConstants.quotes}/\$quoteId', data: data);
+      final response = await dio.put('${ApiConstants.quotes}/$quoteId', data: data);
       return QuoteModel.fromJson(response.data);
     } on DioException catch (e) {
-      throw Exception('Update quote failed: \${e.response?.data}');
+      throw Exception('Update quote failed: ${e.response?.data}');
     }
   }
 
   Future<void> deleteQuote(String quoteId) async {
     try {
-      await dio.delete('\${ApiConstants.quotes}/\$quoteId');
+      await dio.delete('${ApiConstants.quotes}/$quoteId');
     } on DioException catch (e) {
-      throw Exception('Delete quote failed: \${e.response?.data}');
+      throw Exception('Delete quote failed: ${e.response?.data}');
     }
   }
 
   Future<void> acceptQuote(String quoteId) async {
     try {
-      await dio.post('\${ApiConstants.quotes}/\$quoteId/confirmations');
+      await dio.post('${ApiConstants.quotes}/$quoteId/confirmations');
     } on DioException catch (e) {
-      throw Exception('Accept quote failed: \${e.response?.data}');
+      throw Exception('Accept quote failed: ${e.response?.data}');
     }
   }
 
   Future<void> rejectQuote(String quoteId) async {
     try {
-      await dio.post('\${ApiConstants.quotes}/\$quoteId/rejections');
+      await dio.post('${ApiConstants.quotes}/$quoteId/rejections');
     } on DioException catch (e) {
-      throw Exception('Reject quote failed: \${e.response?.data}');
+      throw Exception('Reject quote failed: ${e.response?.data}');
     }
   }
 
@@ -90,7 +90,7 @@ class QuoteService {
     try {
       final totalPrice = quantity * unitPrice;
       final response = await dio.post(
-        '\${ApiConstants.quotes}/\$quoteId/service-items',
+        '${ApiConstants.quotes}/$quoteId/service-items',
         data: {
           'description': description,
           'quantity': quantity,
@@ -101,18 +101,18 @@ class QuoteService {
       );
       return ServiceItemModel.fromJson(response.data);
     } on DioException catch (e) {
-      throw Exception('Add service item failed: \${e.response?.data}');
+      throw Exception('Add service item failed: ${e.response?.data}');
     }
   }
 
   Future<List<ServiceItemModel>> getServiceItems(String quoteId) async {
     try {
-      final response = await dio.get('\${ApiConstants.quotes}/\$quoteId/service-items');
+      final response = await dio.get('${ApiConstants.quotes}/$quoteId/service-items');
       return (response.data as List)
           .map((e) => ServiceItemModel.fromJson(e))
           .toList();
     } on DioException catch (e) {
-      throw Exception('Get service items failed: \${e.response?.data}');
+      throw Exception('Get service items failed: ${e.response?.data}');
     }
   }
 }

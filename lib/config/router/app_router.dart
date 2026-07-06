@@ -7,6 +7,7 @@ import '../../presentation/screens/splash/splash_screen.dart';
 import '../../presentation/screens/dashboard/dashboard_screen.dart';
 import '../../presentation/screens/dashboard/organizer_detail_screen.dart';
 import '../../presentation/screens/profile/profile_screen.dart';
+import '../../presentation/screens/profile/profile_setup_screen.dart';
 import '../../presentation/screens/quotes/quotes_screen.dart';
 import '../../presentation/screens/quotes/quote_form_screen.dart';
 import '../../presentation/screens/events/events_screen.dart';
@@ -67,6 +68,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const ProfileScreen(),
           ),
         ],
+      ),
+      GoRoute(
+        path: '/profile-setup',
+        builder: (context, state) => const ProfileSetupScreen(),
       ),
     ],
     redirect: (context, state) {

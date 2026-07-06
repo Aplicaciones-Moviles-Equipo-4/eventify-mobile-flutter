@@ -9,12 +9,12 @@ class EventService {
 
   Future<List<SocialEventModel>> getEventsByCustomer(String customerName) async {
     try {
-      final response = await dio.get('\${ApiConstants.customers}/\$customerName/social-events');
+      final response = await dio.get('${ApiConstants.customers}/$customerName/social-events');
       return (response.data as List)
           .map((e) => SocialEventModel.fromJson(e))
           .toList();
     } on DioException catch (e) {
-      throw Exception('Get events failed: \${e.response?.data}');
+      throw Exception('Get events failed: ${e.response?.data}');
     }
   }
 
@@ -25,7 +25,7 @@ class EventService {
           .map((e) => SocialEventModel.fromJson(e))
           .toList();
     } on DioException catch (e) {
-      throw Exception('Get all events failed: \${e.response?.data}');
+      throw Exception('Get all events failed: ${e.response?.data}');
     }
   }
 }

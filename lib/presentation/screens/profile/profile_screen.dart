@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth/auth_provider.dart';
 import '../../providers/profile/profile_provider.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -31,7 +32,7 @@ class ProfileScreen extends ConsumerWidget {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      // context.go('/profile-setup');
+                      context.push('/profile-setup');
                     },
                     child: const Text('Configurar Perfil'),
                   ),
@@ -58,7 +59,7 @@ class ProfileScreen extends ConsumerWidget {
               ),
             ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: \$err')),
+        error: (err, stack) => Center(child: Text('Error: $err')),
       ),
     );
   }

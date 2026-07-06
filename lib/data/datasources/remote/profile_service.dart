@@ -29,30 +29,30 @@ class ProfileService {
           'city': city,
           'postalCode': postalCode,
           'country': country,
-          'type': 'HOST',
+          'type': 'HOSTER',
         },
       );
       return ProfileModel.fromJson(response.data);
     } on DioException catch (e) {
-      throw Exception('Create profile failed: \${e.response?.data}');
+      throw Exception('Create profile failed: ${e.response?.data}');
     }
   }
 
   Future<ProfileModel> getProfile(int profileId) async {
     try {
-      final response = await dio.get('\${ApiConstants.profiles}/\$profileId');
+      final response = await dio.get('${ApiConstants.profiles}/$profileId');
       return ProfileModel.fromJson(response.data);
     } on DioException catch (e) {
-      throw Exception('Get profile failed: \${e.response?.data}');
+      throw Exception('Get profile failed: ${e.response?.data}');
     }
   }
 
   Future<ProfileModel> getProfileByEmail(String email) async {
     try {
-      final response = await dio.get('\${ApiConstants.profiles}/email/\$email');
+      final response = await dio.get('${ApiConstants.profiles}/email/$email');
       return ProfileModel.fromJson(response.data);
     } on DioException catch (e) {
-      throw Exception('Get profile by email failed: \${e.response?.data}');
+      throw Exception('Get profile by email failed: ${e.response?.data}');
     }
   }
 
@@ -63,7 +63,7 @@ class ProfileService {
           .map((e) => ProfileModel.fromJson(e))
           .toList();
     } on DioException catch (e) {
-      throw Exception('Get all profiles failed: \${e.response?.data}');
+      throw Exception('Get all profiles failed: ${e.response?.data}');
     }
   }
 }

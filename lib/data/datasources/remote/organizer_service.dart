@@ -16,18 +16,18 @@ class OrganizerService {
           .toList();
       return profiles.where((p) => p.type == 'ORGANIZER').toList();
     } on DioException catch (e) {
-      throw Exception('Get organizers failed: \${e.response?.data}');
+      throw Exception('Get organizers failed: ${e.response?.data}');
     }
   }
 
   Future<List<QuoteModel>> getOrganizerQuotes(int organizerId) async {
     try {
-      final response = await dio.get('\${ApiConstants.organizers}/\$organizerId/quotes');
+      final response = await dio.get('${ApiConstants.organizers}/$organizerId/quotes');
       return (response.data as List)
           .map((e) => QuoteModel.fromJson(e))
           .toList();
     } on DioException catch (e) {
-      throw Exception('Get organizer quotes failed: \${e.response?.data}');
+      throw Exception('Get organizer quotes failed: ${e.response?.data}');
     }
   }
 }

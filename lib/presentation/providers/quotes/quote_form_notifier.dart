@@ -14,6 +14,7 @@ class QuoteFormNotifier extends StateNotifier<QuoteFormState> {
   void updateEventType(String value) => state = state.copyWith(eventType: value);
   void updateGuestQuantity(int value) => state = state.copyWith(guestQuantity: value);
   void updateLocation(String value) => state = state.copyWith(location: value);
+  void updateAdditionalDetails(String value) => state = state.copyWith(additionalDetails: value);
   void updateEventDate(DateTime value) => state = state.copyWith(eventDate: value);
 
   void addServiceItem() {

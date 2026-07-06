@@ -27,6 +27,7 @@ class QuoteFormState with _$QuoteFormState {
     required int organizerId,
     required List<ServiceItemForm> serviceItems,
     required bool isLoading,
+    @Default('') String additionalDetails,
     String? errorMessage,
     QuoteModel? createdQuote,
   }) = _QuoteFormState;
@@ -36,6 +37,7 @@ class QuoteFormState with _$QuoteFormState {
     eventType: '',
     guestQuantity: 1,
     location: '',
+    additionalDetails: '',
     eventDate: DateTime.now(),
     organizerId: organizerId,
     serviceItems: [

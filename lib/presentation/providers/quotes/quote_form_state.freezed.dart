@@ -195,6 +195,7 @@ mixin _$QuoteFormState {
   int get organizerId => throw _privateConstructorUsedError;
   List<ServiceItemForm> get serviceItems => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
+  String get additionalDetails => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   QuoteModel? get createdQuote => throw _privateConstructorUsedError;
 
@@ -220,6 +221,7 @@ abstract class $QuoteFormStateCopyWith<$Res> {
       int organizerId,
       List<ServiceItemForm> serviceItems,
       bool isLoading,
+      String additionalDetails,
       String? errorMessage,
       QuoteModel? createdQuote});
 }
@@ -247,6 +249,7 @@ class _$QuoteFormStateCopyWithImpl<$Res, $Val extends QuoteFormState>
     Object? organizerId = null,
     Object? serviceItems = null,
     Object? isLoading = null,
+    Object? additionalDetails = null,
     Object? errorMessage = freezed,
     Object? createdQuote = freezed,
   }) {
@@ -283,6 +286,10 @@ class _$QuoteFormStateCopyWithImpl<$Res, $Val extends QuoteFormState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      additionalDetails: null == additionalDetails
+          ? _value.additionalDetails
+          : additionalDetails // ignore: cast_nullable_to_non_nullable
+              as String,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -312,6 +319,7 @@ abstract class _$$QuoteFormStateImplCopyWith<$Res>
       int organizerId,
       List<ServiceItemForm> serviceItems,
       bool isLoading,
+      String additionalDetails,
       String? errorMessage,
       QuoteModel? createdQuote});
 }
@@ -337,6 +345,7 @@ class __$$QuoteFormStateImplCopyWithImpl<$Res>
     Object? organizerId = null,
     Object? serviceItems = null,
     Object? isLoading = null,
+    Object? additionalDetails = null,
     Object? errorMessage = freezed,
     Object? createdQuote = freezed,
   }) {
@@ -373,6 +382,10 @@ class __$$QuoteFormStateImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      additionalDetails: null == additionalDetails
+          ? _value.additionalDetails
+          : additionalDetails // ignore: cast_nullable_to_non_nullable
+              as String,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -397,6 +410,7 @@ class _$QuoteFormStateImpl implements _QuoteFormState {
       required this.organizerId,
       required final List<ServiceItemForm> serviceItems,
       required this.isLoading,
+      this.additionalDetails = '',
       this.errorMessage,
       this.createdQuote})
       : _serviceItems = serviceItems;
@@ -424,13 +438,16 @@ class _$QuoteFormStateImpl implements _QuoteFormState {
   @override
   final bool isLoading;
   @override
+  @JsonKey()
+  final String additionalDetails;
+  @override
   final String? errorMessage;
   @override
   final QuoteModel? createdQuote;
 
   @override
   String toString() {
-    return 'QuoteFormState(title: $title, eventType: $eventType, guestQuantity: $guestQuantity, location: $location, eventDate: $eventDate, organizerId: $organizerId, serviceItems: $serviceItems, isLoading: $isLoading, errorMessage: $errorMessage, createdQuote: $createdQuote)';
+    return 'QuoteFormState(title: $title, eventType: $eventType, guestQuantity: $guestQuantity, location: $location, eventDate: $eventDate, organizerId: $organizerId, serviceItems: $serviceItems, isLoading: $isLoading, additionalDetails: $additionalDetails, errorMessage: $errorMessage, createdQuote: $createdQuote)';
   }
 
   @override
@@ -453,6 +470,8 @@ class _$QuoteFormStateImpl implements _QuoteFormState {
                 .equals(other._serviceItems, _serviceItems) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
+            (identical(other.additionalDetails, additionalDetails) ||
+                other.additionalDetails == additionalDetails) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             (identical(other.createdQuote, createdQuote) ||
@@ -470,6 +489,7 @@ class _$QuoteFormStateImpl implements _QuoteFormState {
       organizerId,
       const DeepCollectionEquality().hash(_serviceItems),
       isLoading,
+      additionalDetails,
       errorMessage,
       createdQuote);
 
@@ -493,6 +513,7 @@ abstract class _QuoteFormState implements QuoteFormState {
       required final int organizerId,
       required final List<ServiceItemForm> serviceItems,
       required final bool isLoading,
+      final String additionalDetails,
       final String? errorMessage,
       final QuoteModel? createdQuote}) = _$QuoteFormStateImpl;
 
@@ -512,6 +533,8 @@ abstract class _QuoteFormState implements QuoteFormState {
   List<ServiceItemForm> get serviceItems;
   @override
   bool get isLoading;
+  @override
+  String get additionalDetails;
   @override
   String? get errorMessage;
   @override

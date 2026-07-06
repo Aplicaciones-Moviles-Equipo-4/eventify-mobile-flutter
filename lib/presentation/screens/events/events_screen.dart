@@ -22,14 +22,14 @@ class EventsScreen extends ConsumerWidget {
                   margin: const EdgeInsets.all(8),
                   child: ListTile(
                     title: Text(event.title),
-                    subtitle: Text('\${event.eventDate.toLocal()} - \${event.location}'),
+                    subtitle: Text('${event.eventDate.toLocal()} - ${event.location}'),
                     trailing: Chip(label: Text(event.status)),
                   ),
                 );
               },
             ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: \$err')),
+        error: (err, stack) => Center(child: Text('Error: $err')),
       ),
     );
   }

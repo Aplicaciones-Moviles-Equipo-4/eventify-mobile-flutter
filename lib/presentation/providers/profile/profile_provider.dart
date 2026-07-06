@@ -14,12 +14,12 @@ final profileServiceProvider = Provider<ProfileService>((ref) {
 final currentProfileProvider = FutureProvider<ProfileModel?>((ref) async {
   const storage = FlutterSecureStorage();
   final userId = await storage.read(key: 'user_id');
-  
-  if (userId == null) return null;
+  final profileIdStr = await storage.read(key: 'profile_id') ?? userId;
+  if (profileIdStr == null) return null;
 
   final profileService = ref.watch(profileServiceProvider);
   try {
-    return await profileService.getProfile(int.parse(userId));
+    return await profileService.getProfile(int.parse(profileIdStr));
   } catch (e) {
     return null;
   }

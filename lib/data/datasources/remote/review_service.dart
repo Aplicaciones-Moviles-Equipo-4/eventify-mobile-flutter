@@ -9,12 +9,12 @@ class ReviewService {
 
   Future<List<ReviewModel>> getReviewsByProfile(int profileId) async {
     try {
-      final response = await dio.get('\${ApiConstants.reviews}/profile/\$profileId');
+      final response = await dio.get('${ApiConstants.reviews}/profile/$profileId');
       return (response.data as List)
           .map((e) => ReviewModel.fromJson(e))
           .toList();
     } on DioException catch (e) {
-      throw Exception('Get reviews failed: \${e.response?.data}');
+      throw Exception('Get reviews failed: ${e.response?.data}');
     }
   }
 

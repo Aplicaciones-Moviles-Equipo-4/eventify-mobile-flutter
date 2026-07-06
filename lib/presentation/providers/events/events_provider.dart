@@ -16,5 +16,5 @@ final myEventsProvider = FutureProvider<List<SocialEventModel>>((ref) async {
   if (profile != null) {
     return eventService.getEventsByCustomer(profile.fullName);
   }
-  return eventService.getAllEvents();
+  return [];
 });
