@@ -16,6 +16,16 @@ class ProfileScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Mi Perfil'),
         actions: [
+          profileAsync.maybeWhen(
+            data: (profile) => profile != null 
+              ? IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () => context.push('/profile-setup', extra: profile),
+                  tooltip: 'Editar Perfil',
+                )
+              : const SizedBox.shrink(),
+            orElse: () => const SizedBox.shrink(),
+          ),
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () => ref.read(authProvider.notifier).logout(),
@@ -39,15 +49,40 @@ class ProfileScreen extends ConsumerWidget {
                 ],
               ),
             )
-          : Padding(
-              padding: const EdgeInsets.all(16),
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Center(
-                    child: CircleAvatar(radius: 50, child: Icon(Icons.person, size: 50)),
+                  Center(
+                    child: Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: 60,
+                          backgroundColor: Colors.indigo.withOpacity(0.1),
+                          backgroundImage: profile.profilePictureUrl != null 
+                              ? NetworkImage(profile.profilePictureUrl!) 
+                              : null,
+                          child: profile.profilePictureUrl == null
+                              ? const Icon(Icons.person, size: 60, color: Colors.indigo)
+                              : null,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: GestureDetector(
+                            onTap: () => context.push('/profile-setup', extra: profile),
+                            child: CircleAvatar(
+                              backgroundColor: Theme.of(context).primaryColor,
+                              radius: 18,
+                              child: const Icon(Icons.edit, color: Colors.white, size: 18),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 32),
                   _InfoTile(label: 'Nombre Completo', value: profile.fullName),
                   _InfoTile(label: 'Email', value: profile.email),
                   _InfoTile(label: 'Dirección', value: profile.fullAddress),

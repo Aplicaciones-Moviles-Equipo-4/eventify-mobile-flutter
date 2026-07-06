@@ -38,6 +38,18 @@ class ProfileService {
     }
   }
 
+  Future<ProfileModel> updateProfile(int profileId, Map<String, dynamic> data) async {
+    try {
+      final response = await dio.put(
+        '${ApiConstants.profiles}/$profileId',
+        data: data,
+      );
+      return ProfileModel.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception('Update profile failed: ${e.response?.data}');
+    }
+  }
+
   Future<ProfileModel> getProfile(int profileId) async {
     try {
       final response = await dio.get('${ApiConstants.profiles}/$profileId');

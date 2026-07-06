@@ -13,10 +13,17 @@ import '../../presentation/screens/quotes/quote_form_screen.dart';
 import '../../presentation/screens/events/events_screen.dart';
 import '../../presentation/screens/app_shell.dart';
 import '../../presentation/providers/auth/auth_provider.dart';
+import '../../data/models/profile/profile_model.dart';
 
+// Este provider ahora es estable y no se recrea al cambiar la sesión
 final goRouterProvider = Provider<GoRouter>((ref) {
+  
+  final authNotifier = ref.read(authProvider.notifier);
+
   return GoRouter(
     initialLocation: '/splash',
+    // Importante: No escuchamos cambios aquí para no recrear el Router, 
+    // la lógica de redirección se encargará.
     routes: [
       GoRoute(
         path: '/splash',
@@ -71,15 +78,29 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/profile-setup',
-        builder: (context, state) => const ProfileSetupScreen(),
+        builder: (context, state) {
+          final profile = state.extra as ProfileModel?;
+          return ProfileSetupScreen(profileToEdit: profile);
+        },
       ),
     ],
     redirect: (context, state) {
-      final isAuthenticated = ref.read(isAuthenticatedProvider);
-      final isLoggingIn = state.uri.toString() == '/login' || state.uri.toString() == '/register' || state.uri.toString() == '/splash';
+      final authState = ref.read(authProvider);
+      final isAuthenticated = authState.maybeWhen(
+        authenticated: (_) => true,
+        orElse: () => false,
+      );
 
-      if (!isAuthenticated && !isLoggingIn) return '/login';
-      if (isAuthenticated && isLoggingIn) return '/dashboard';
+      final location = state.matchedLocation;
+      final isAuthPage = location == '/login' || location == '/register' || location == '/splash';
+
+      if (!isAuthenticated) {
+        return isAuthPage ? null : '/login';
+      }
+
+      if (isAuthenticated && isAuthPage) {
+        return '/dashboard';
+      }
 
       return null;
     },

@@ -16,6 +16,7 @@ class ProfileModel {
   final String country;
   final String fullAddress;
   final String type; // HOST, ORGANIZER
+  final String? profilePictureUrl;
 
   ProfileModel({
     required this.id,
@@ -30,6 +31,7 @@ class ProfileModel {
     required this.country,
     required this.fullAddress,
     required this.type,
+    this.profilePictureUrl,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => 

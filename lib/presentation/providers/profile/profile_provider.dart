@@ -13,14 +13,17 @@ final profileServiceProvider = Provider<ProfileService>((ref) {
 
 final currentProfileProvider = FutureProvider<ProfileModel?>((ref) async {
   const storage = FlutterSecureStorage();
-  final userId = await storage.read(key: 'user_id');
-  final profileIdStr = await storage.read(key: 'profile_id') ?? userId;
+  final profileIdStr = await storage.read(key: 'profile_id');
+  
   if (profileIdStr == null) return null;
 
   final profileService = ref.watch(profileServiceProvider);
   try {
     return await profileService.getProfile(int.parse(profileIdStr));
   } catch (e) {
+    // Si hay un error al obtener el perfil (ej: no pertenece al usuario actual),
+    // limpiamos el profile_id para que el usuario pueda configurarlo de nuevo
+    await storage.delete(key: 'profile_id');
     return null;
   }
 });

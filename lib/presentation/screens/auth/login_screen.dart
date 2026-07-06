@@ -60,12 +60,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
     });
 
     return Scaffold(
-      backgroundColor: const Color(0xFFE9E9F0), // Gris ambiental sutil
+      backgroundColor: const Color(0xFFE9E9F0),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Logo y Subtitulo centrados
@@ -118,20 +120,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                       const SizedBox(height: 10),
                       const Opacity(
                         opacity: 0.6,
-                        child: Text(
-                          'Encuentra al proximo Organizador de tus eventos',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black54,
-                            letterSpacing: 0.2,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
+                            'Encuentra al proximo Organizador de tus eventos',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.black54,
+                              letterSpacing: 0.2,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 55),
+                const SizedBox(height: 45),
 
                 // Seccion Inputs
                 _buildLabel('Usuario'),
@@ -141,7 +146,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                   hint: 'Tu Usuario',
                   icon: Icons.email_outlined,
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 20),
 
                 _buildLabel('Contraseña'),
                 const SizedBox(height: 8),
@@ -153,7 +158,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                   obscure: _obscurePassword,
                   onToggleObscure: () => setState(() => _obscurePassword = !_obscurePassword),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 10),
 
                 // Recordarme y Olvido
                 Row(
@@ -161,25 +166,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                   children: [
                     Row(
                       children: [
-                        Checkbox(
-                          value: _rememberMe,
-                          onChanged: (val) => setState(() => _rememberMe = val ?? false),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                          activeColor: const Color(0xFF1A237E),
+                        SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: Checkbox(
+                            value: _rememberMe,
+                            onChanged: (val) => setState(() => _rememberMe = val ?? false),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                            activeColor: const Color(0xFF1A237E),
+                          ),
                         ),
-                        const Text('Recordarme', style: TextStyle(fontSize: 13, color: Colors.black45)),
+                        const SizedBox(width: 4),
+                        const Text('Recordarme', style: TextStyle(fontSize: 11, color: Colors.black45)),
                       ],
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        '¿Olvidaste tu contraseña?',
-                        style: TextStyle(fontSize: 12, color: Color(0xFF3949AB), fontWeight: FontWeight.bold),
+                    Flexible(
+                      child: TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                        child: const Text(
+                          '¿Olvidaste tu contraseña?',
+                          style: TextStyle(fontSize: 11, color: Color(0xFF3949AB), fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.right,
+                        ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 35),
+                const SizedBox(height: 30),
 
                 // Botones
                 SizedBox(

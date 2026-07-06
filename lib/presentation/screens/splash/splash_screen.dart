@@ -14,19 +14,38 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _init();
+    // Ejecutamos la inicialización después del primer frame para evitar conflictos
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _init();
+    });
   }
 
   Future<void> _init() async {
+    // Esperamos 2 segundos
     await Future.delayed(const Duration(seconds: 2));
-    await ref.read(authProvider.notifier).checkAuthStatus();
     
-    if (mounted) {
-      final isAuthenticated = ref.read(isAuthenticatedProvider);
-      if (isAuthenticated) {
-        context.go('/dashboard');
-      } else {
-        context.go('/login');
+    // Si el widget se cerró durante la espera, no hacemos nada
+    if (!mounted) return;
+
+    try {
+      // Verificamos la sesión
+      await ref.read(authProvider.notifier).checkAuthStatus();
+    } catch (e) {
+      debugPrint('Error en Splash: $e');
+    } finally {
+      // Navegación final segura
+      if (mounted) {
+        final authState = ref.read(authProvider);
+        final isAuthenticated = authState.maybeWhen(
+          authenticated: (_) => true, 
+          orElse: () => false
+        );
+
+        if (isAuthenticated) {
+          context.go('/dashboard');
+        } else {
+          context.go('/login');
+        }
       }
     }
   }
