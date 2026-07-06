@@ -39,6 +39,17 @@ class QuoteService {
     }
   }
 
+  Future<List<QuoteModel>> getQuotes() async {
+    try {
+      final response = await dio.get(ApiConstants.quotes);
+      return (response.data as List)
+          .map((e) => QuoteModel.fromJson(e))
+          .toList();
+    } on DioException catch (e) {
+      throw Exception('Get quotes failed: ${e.response?.data}');
+    }
+  }
+
   Future<QuoteModel> getQuote(String quoteId) async {
     try {
       final response = await dio.get('${ApiConstants.quotes}/$quoteId');
