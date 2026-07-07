@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../auth/auth_provider.dart';
 import 'profile_notifier.dart';
 import 'profile_form_state.dart';
 import '../../../data/datasources/remote/profile_service.dart';
@@ -12,20 +13,28 @@ final profileServiceProvider = Provider<ProfileService>((ref) {
 });
 
 final currentProfileProvider = FutureProvider<ProfileModel?>((ref) async {
-  const storage = FlutterSecureStorage();
-  final profileIdStr = await storage.read(key: 'profile_id');
+  // Observamos el estado de auth. Si el usuario cambia o sale, este provider se reinicia.
+  final authState = ref.watch(authProvider);
   
-  if (profileIdStr == null) return null;
+  return authState.maybeWhen(
+    authenticated: (user) async {
+      const storage = FlutterSecureStorage();
+      // Usamos una clave única por usuario para evitar fugas de datos
+      final profileIdStr = await storage.read(key: 'profile_id_${user.id}');
+      
+      if (profileIdStr == null) return null;
 
-  final profileService = ref.watch(profileServiceProvider);
-  try {
-    return await profileService.getProfile(int.parse(profileIdStr));
-  } catch (e) {
-    // Si hay un error al obtener el perfil (ej: no pertenece al usuario actual),
-    // limpiamos el profile_id para que el usuario pueda configurarlo de nuevo
-    await storage.delete(key: 'profile_id');
-    return null;
-  }
+      final profileService = ref.watch(profileServiceProvider);
+      try {
+        return await profileService.getProfile(int.parse(profileIdStr));
+      } catch (e) {
+        // Si el perfil no existe o hay error, limpiamos esa clave específica
+        await storage.delete(key: 'profile_id_${user.id}');
+        return null;
+      }
+    },
+    orElse: () => null,
+  );
 });
 
 final profileFormProvider = 

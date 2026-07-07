@@ -40,10 +40,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> logout() async {
-    await secureStorage.delete(key: 'auth_token');
-    await secureStorage.delete(key: 'user_id');
-    await secureStorage.delete(key: 'username');
-    await secureStorage.delete(key: 'profile_id');
+    // Borrado total de seguridad para evitar fuga de datos entre usuarios
+    await secureStorage.deleteAll();
     state = const AuthState.unauthenticated();
   }
 

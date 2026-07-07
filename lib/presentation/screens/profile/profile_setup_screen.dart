@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../providers/profile/profile_provider.dart';
+import '../../providers/auth/auth_provider.dart';
 import '../../../data/models/profile/profile_model.dart';
 
 class ProfileSetupScreen extends ConsumerStatefulWidget {
@@ -101,8 +102,12 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
           postalCode: _postalCodeCtrl.text,
           country: _countryCtrl.text,
         );
-        const storage = FlutterSecureStorage();
-        await storage.write(key: 'profile_id', value: profile.id.toString());
+        
+        final user = ref.read(currentUserProvider);
+        if (user != null) {
+          const storage = FlutterSecureStorage();
+          await storage.write(key: 'profile_id_${user.id}', value: profile.id.toString());
+        }
       }
       
       ref.invalidate(currentProfileProvider);
