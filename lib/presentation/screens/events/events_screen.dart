@@ -22,7 +22,10 @@ class EventsScreen extends ConsumerWidget {
                   margin: const EdgeInsets.all(8),
                   child: ListTile(
                     title: Text(event.title),
-                    subtitle: Text('${event.eventDate.toLocal()} - ${event.location}'),
+                    subtitle: Text(
+                      '${event.date.toLocal().toString().split(' ').first} · '
+                      '${event.customerName} · ${event.place}',
+                    ),
                     trailing: Chip(label: Text(event.status)),
                   ),
                 );

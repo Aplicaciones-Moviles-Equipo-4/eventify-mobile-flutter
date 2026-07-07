@@ -10,18 +10,20 @@ SocialEventModel _$SocialEventModelFromJson(Map<String, dynamic> json) =>
     SocialEventModel(
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
-      description: json['description'] as String,
-      eventDate: DateTime.parse(json['eventDate'] as String),
-      location: json['location'] as String,
+      date: DateTime.parse(json['date'] as String),
+      customerName: json['customerName'] as String,
+      place: json['place'] as String,
       status: json['status'] as String,
+      organizerId: (json['organizerId'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$SocialEventModelToJson(SocialEventModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
-      'description': instance.description,
-      'eventDate': instance.eventDate.toIso8601String(),
-      'location': instance.location,
+      'date': instance.date.toIso8601String(),
+      'customerName': instance.customerName,
+      'place': instance.place,
       'status': instance.status,
+      'organizerId': instance.organizerId,
     };
