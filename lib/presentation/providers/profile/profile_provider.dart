@@ -19,17 +19,27 @@ final currentProfileProvider = FutureProvider<ProfileModel?>((ref) async {
   return authState.maybeWhen(
     authenticated: (user) async {
       const storage = FlutterSecureStorage();
-      // Usamos una clave única por usuario para evitar fugas de datos
-      final profileIdStr = await storage.read(key: 'profile_id_${user.id}');
-      
-      if (profileIdStr == null) return null;
-
       final profileService = ref.watch(profileServiceProvider);
+      
+      // 1. Intentamos leer de almacenamiento local
+      String? profileIdStr = await storage.read(key: 'profile_id_${user.id}');
+      
+      if (profileIdStr != null) {
+        try {
+          return await profileService.getProfile(int.parse(profileIdStr));
+        } catch (e) {
+          // Si el ID guardado ya no es válido, seguimos al siguiente paso
+          await storage.delete(key: 'profile_id_${user.id}');
+        }
+      }
+
+      // 2. Si no hay ID local, intentamos buscar por nombre de usuario (que es el email en este backend)
       try {
-        return await profileService.getProfile(int.parse(profileIdStr));
+        final profile = await profileService.getProfileByEmail(user.username);
+        // Guardamos el ID encontrado para futuras consultas
+        await storage.write(key: 'profile_id_${user.id}', value: profile.id.toString());
+        return profile;
       } catch (e) {
-        // Si el perfil no existe o hay error, limpiamos esa clave específica
-        await storage.delete(key: 'profile_id_${user.id}');
         return null;
       }
     },

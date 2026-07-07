@@ -1,12 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'quote_form_state.dart';
 import '../../../data/datasources/remote/quote_service.dart';
+import '../../../data/datasources/local/local_quote_service.dart';
 
 class QuoteFormNotifier extends StateNotifier<QuoteFormState> {
   final QuoteService quoteService;
+  final LocalQuoteService localService;
+  final int? currentUserId;
 
   QuoteFormNotifier(
-    this.quoteService, {
+    this.quoteService,
+    this.localService,
+    this.currentUserId, {
     required int organizerId,
   }) : super(QuoteFormState.initial(organizerId: organizerId));
 
@@ -39,9 +44,7 @@ class QuoteFormNotifier extends StateNotifier<QuoteFormState> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
       if (state.title.isEmpty) throw Exception('Título es requerido');
-      if (state.eventType.isEmpty) throw Exception('Tipo de evento es requerido');
-      if (state.location.isEmpty) throw Exception('Ubicación es requerida');
-
+      
       final quote = await quoteService.createQuote(
         title: state.title,
         eventType: state.eventType,
@@ -62,6 +65,11 @@ class QuoteFormNotifier extends StateNotifier<QuoteFormState> {
             unitPrice: item.unitPrice,
           );
         }
+      }
+
+      // GUARDADO LOCAL: Como el backend no permite consultar, guardamos una copia aquí
+      if (currentUserId != null) {
+        await localService.saveQuote(quote, currentUserId!);
       }
 
       state = state.copyWith(isLoading: false, createdQuote: quote);

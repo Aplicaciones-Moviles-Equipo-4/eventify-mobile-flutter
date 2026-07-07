@@ -7,7 +7,7 @@ part 'quote_model.g.dart';
 class QuoteModel {
   final String quoteId;
   final String title;
-  final String eventType; // WEDDING, BIRTHDAY, CORPORATE, OTHER
+  final String eventType; // WEDDING, BIRTHDAY, ANNIVERSARY, OTHER
   final int guestQuantity;
   final String location;
   final double totalPrice;

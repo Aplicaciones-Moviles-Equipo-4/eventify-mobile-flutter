@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../providers/quotes/quotes_provider.dart';
 import '../../providers/quotes/quote_form_state.dart';
 import '../../providers/auth/auth_provider.dart';
+import '../../providers/profile/profile_provider.dart';
 
 class QuoteFormScreen extends ConsumerStatefulWidget {
   final int organizerId;
@@ -48,10 +49,12 @@ class _QuoteFormScreenState extends ConsumerState<QuoteFormScreen> {
   Widget build(BuildContext context) {
     final formState = ref.watch(quoteFormProvider(widget.organizerId));
     final formNotifier = ref.read(quoteFormProvider(widget.organizerId).notifier);
-    final user = ref.watch(currentUserProvider);
+    final profileAsync = ref.watch(currentProfileProvider);
 
     ref.listen(quoteFormProvider(widget.organizerId), (previous, next) {
       if (previous?.createdQuote == null && next.createdQuote != null) {
+        // Al tener éxito, invalidamos la lista para que se refresque
+        ref.invalidate(quotesListProvider);
         showDialog(
           context: context,
           barrierDismissible: false,
@@ -97,7 +100,6 @@ class _QuoteFormScreenState extends ConsumerState<QuoteFormScreen> {
                 items: const [
                   DropdownMenuItem(value: 'WEDDING', child: Text('Boda (Wedding)')),
                   DropdownMenuItem(value: 'BIRTHDAY', child: Text('Cumpleaños (Birthday)')),
-                  DropdownMenuItem(value: 'CORPORATE', child: Text('Corporativo (Corporate)')),
                   DropdownMenuItem(value: 'OTHER', child: Text('Otro')),
                 ],
                 validator: (val) => val == null || val.isEmpty ? 'Selecciona un tipo' : null,
@@ -227,20 +229,45 @@ class _QuoteFormScreenState extends ConsumerState<QuoteFormScreen> {
                 ),
               ),
               const SizedBox(height: 24),
+              if (profileAsync.hasError)
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    'Error al verificar tu perfil. Inténtalo más tarde.',
+                    style: TextStyle(color: Colors.red, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              else if (profileAsync.value == null && !profileAsync.isLoading)
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    'Debes completar tu perfil para enviar cotizaciones.',
+                    style: TextStyle(color: Colors.orange, fontSize: 12, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    backgroundColor: (profileAsync.value == null) ? Colors.grey : null,
                   ),
-                  onPressed: formState.isLoading ? null : () {
-                    if (_formKey.currentState!.validate() && user != null) {
-                      formNotifier.submitQuote(hostId: user.id);
-                    }
-                  },
-                  child: formState.isLoading 
-                    ? const CircularProgressIndicator()
+                  onPressed: (formState.isLoading || profileAsync.isLoading || profileAsync.value == null) 
+                    ? null 
+                    : () {
+                        if (_formKey.currentState!.validate()) {
+                          formNotifier.submitQuote(hostId: profileAsync.value!.id);
+                        }
+                      },
+                  child: (formState.isLoading || profileAsync.isLoading)
+                    ? const SizedBox(
+                        height: 20, 
+                        width: 20, 
+                        child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white)
+                      )
                     : const Text('Enviar Cotización', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 ),
               ),
