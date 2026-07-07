@@ -14,7 +14,7 @@ final myEventsProvider = FutureProvider<List<SocialEventModel>>((ref) async {
   final profile = await ref.watch(currentProfileProvider.future);
   
   if (profile != null) {
-    return eventService.getEventsByCustomer(profile.fullName);
+    return eventService.getEventsByOrganizer(profile.id);
   }
   return [];
 });
