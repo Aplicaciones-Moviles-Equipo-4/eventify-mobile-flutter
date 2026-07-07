@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// Widget that renders a horizontal strip of images.
+// Safely handles the case of an empty gallery list, and displays a fallback icon
+// if a remote image fails to load.
 class PhotoGalleryStrip extends StatelessWidget {
   final List<String> photoUrls;
 
@@ -7,6 +10,7 @@ class PhotoGalleryStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Returns a gray box with a descriptive text if the photo URLs list is empty
     if (photoUrls.isEmpty) {
       return Container(
         height: 120,
@@ -19,6 +23,7 @@ class PhotoGalleryStrip extends StatelessWidget {
       );
     }
 
+    // Renders the horizontal list view with rounded corners and load error handling
     return SizedBox(
       height: 120,
       child: ListView.separated(

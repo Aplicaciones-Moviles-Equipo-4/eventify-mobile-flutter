@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// Reusable widget to display a label/service as a Chip.
+// Automatically adapts its background and text colors using the current theme's color scheme (surfaceVariant).
 class ServiceChip extends StatelessWidget {
   final String label;
 
