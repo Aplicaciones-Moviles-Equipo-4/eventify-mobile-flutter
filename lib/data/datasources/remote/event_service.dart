@@ -28,4 +28,18 @@ class EventService {
       throw Exception('Get all events failed: ${e.response?.data}');
     }
   }
+
+  /// Events owned by a given organizer (profileId), scoped so the app does not
+  /// list every organizer's events.
+  Future<List<SocialEventModel>> getEventsByOrganizer(int organizerId) async {
+    try {
+      final response =
+          await dio.get('${ApiConstants.organizers}/$organizerId/social-events');
+      return (response.data as List)
+          .map((e) => SocialEventModel.fromJson(e))
+          .toList();
+    } on DioException catch (e) {
+      throw Exception('Get organizer events failed: ${e.response?.data}');
+    }
+  }
 }

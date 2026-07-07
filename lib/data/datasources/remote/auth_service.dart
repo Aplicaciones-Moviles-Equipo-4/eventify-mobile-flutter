@@ -13,7 +13,7 @@ class AuthService {
         data: {
           'username': username,
           'password': password,
-          'roles': [],
+          'roles': ['ROLE_USER'],
         },
       );
       return response.data;
